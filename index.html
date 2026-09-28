@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0e0f12">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <title>TECHZONE - Thế Giới Công Nghệ & Trợ Lý AI CyberBot</title>
+  <meta name="description" content="Ứng dụng thương mại điện tử công nghệ cao cấp tích hợp CyberBot AI tư vấn cấu hình, so sánh thiết bị và hỗ trợ mua sắm 24/7.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            app: {
+              bg: '#0e0f12',
+              surface: '#15171c',
+              card: '#1b1d24',
+              elevated: '#282b35',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Stylesheet (Bảng màu trầm dịu mắt & Hỗ trợ Mobile) -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="selection:bg-blue-600 selection:text-white">
+
+  <!-- ========================================================
+       TOP PROMOTION STRIP (TÔNG TRẦM NHẸ NHÀNG)
+       ======================================================== -->
+  <div class="bg-[#15171c] text-slate-300 text-[11px] sm:text-xs py-1.5 px-4 border-b border-white/5">
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2 truncate">
+        <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold text-[10px] uppercase">Ưu đãi</span>
+        <span class="truncate">Mã <strong>TECHAI10</strong> giảm 10% • Freeship hỏa tốc 2H cho đơn từ 2 triệu</span>
+      </div>
+      <div class="hidden sm:flex items-center gap-4 text-slate-400 text-[11px] flex-shrink-0">
+        <a href="tel:19006868" class="hover:text-slate-200">📞 Hotline: 1900 6868</a>
+        <span>•</span>
+        <span>📍 123 Phố Đổi Mới, Hà Nội / TP.HCM</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       TOP APP BAR & NAVIGATION
+       ======================================================== -->
+  <header class="sticky top-0 z-[9970] bg-[#15171c]/95 backdrop-blur-md border-b border-white/5 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-3">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-2.5 flex-shrink-0">
+        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+          ⚡
+        </div>
+        <div>
+          <span class="text-lg sm:text-xl font-bold tracking-tight text-slate-100">TECHZONE</span>
+          <span class="hidden sm:block text-[9px] tracking-widest text-slate-400 uppercase font-semibold">Mobile Store</span>
+        </div>
+      </a>
+
+      <!-- Desktop Search Bar -->
+      <div class="hidden md:flex flex-1 max-w-md mx-6 relative">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+        <input 
+          type="text" 
+          id="search-input"
+          placeholder="Tìm kiếm iPhone 16, M3 Pro, Zephyrus G16, Sony XM5..." 
+          class="w-full pl-9 pr-24 py-2 rounded-xl bg-[#1b1d24] border border-white/10 focus:border-blue-500 focus:outline-none text-xs sm:text-sm text-slate-200 placeholder-slate-500 transition"
+        >
+        <button onclick="openAIChat()" class="absolute inset-y-1 right-1 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-blue-400 text-xs font-semibold flex items-center gap-1 transition">
+          <span>🤖 Hỏi AI</span>
+        </button>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2">
+        <!-- Theme Toggle -->
+        <button class="btn-toggle-theme w-9 h-9 rounded-xl bg-[#1b1d24] hover:bg-[#282b35] flex items-center justify-center text-slate-300 transition" title="Đổi giao diện">
+          <span class="theme-icon text-sm">☀️</span>
+        </button>
+
+        <!-- Wishlist Button -->
+        <button onclick="openWishlist()" class="btn-open-wishlist relative w-9 h-9 rounded-xl bg-[#1b1d24] hover:bg-[#282b35] flex items-center justify-center text-slate-300 transition" title="Yêu thích">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+          <span class="wishlist-badge-count absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 text-white text-[9px] font-bold hidden items-center justify-center">0</span>
+        </button>
+
+        <!-- Cart Button (100% Reliable Click) -->
+        <button onclick="openCart()" class="btn-open-cart relative px-3 h-9 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs sm:text-sm flex items-center gap-1.5 shadow transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span class="hidden sm:inline">Giỏ</span>
+          <span class="cart-badge-count w-4 h-4 rounded-full bg-white text-blue-700 text-[10px] font-bold flex items-center justify-center">0</span>
+        </button>
+
+        <!-- AI Chat Shortcut on Desktop -->
+        <button onclick="openAIChat()" class="hidden lg:flex items-center gap-1.5 px-3 h-9 rounded-xl bg-[#282b35] hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-white/10 transition">
+          <span>🤖</span>
+          <span>CyberBot AI</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Search Bar (Hiển thị mượt mà trên Mobile) -->
+    <div class="md:hidden px-4 pb-2.5">
+      <div class="relative">
+        <input 
+          type="text" 
+          id="mobile-search-input"
+          placeholder="Tìm sản phẩm, thương hiệu..." 
+          class="w-full pl-8 pr-3 py-1.5 rounded-lg bg-[#1b1d24] border border-white/10 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500"
+        >
+        <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-500 text-xs">🔍</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================
+       HERO BANNER & FLASH SPOTLIGHT
+       ======================================================== -->
+  <section class="py-6 sm:py-10 border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        
+        <!-- Left Hero Content -->
+        <div class="lg:col-span-7 text-left">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold mb-3">
+            <span>●</span> Trợ Lý AI Chuyên Biệt CyberBot Pro
+          </div>
+          
+          <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-100 mb-3 leading-snug">
+            Mua Sắm Thiết Bị Công Nghệ <span class="text-blue-400">Thông Minh & Chuẩn Xác</span>
+          </h1>
+
+          <p class="text-slate-400 text-xs sm:text-sm max-w-lg mb-5 leading-relaxed">
+            Hàng chính hãng 100% từ Apple, Samsung, Sony, ASUS. Trợ lý <strong>CyberBot Pro</strong> sẵn sàng tư vấn cấu hình, bóc tách ngân sách và giải đáp 24/7.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-2.5 mb-6">
+            <a href="#catalog-section" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow transition">
+              Khám phá sản phẩm
+            </a>
+            
+            <button onclick="openAIChatWithPrompt('Tư vấn giúp tôi laptop tốt nhất cho sinh viên và dân lập trình!')" class="px-4 py-2.5 rounded-xl bg-[#1b1d24] hover:bg-[#282b35] border border-white/10 text-slate-300 font-semibold text-xs flex items-center gap-1.5 transition">
+              <span>🤖 Chat cùng CyberBot</span>
+            </button>
+          </div>
+
+          <!-- Feature Trust Badges -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-left">
+            <div class="p-2.5 rounded-xl card-matte">
+              <span class="text-base block mb-0.5">🤖</span>
+              <h5 class="text-[11px] font-bold text-slate-200">AI Tư Vấn 24/7</h5>
+              <p class="text-[9px] text-slate-400">Chọn đồ chuẩn xác</p>
+            </div>
+            <div class="p-2.5 rounded-xl card-matte">
+              <span class="text-base block mb-0.5">🛡️</span>
+              <h5 class="text-[11px] font-bold text-slate-200">1 Đổi 1 30 Ngày</h5>
+              <p class="text-[9px] text-slate-400">Chính hãng 100%</p>
+            </div>
+            <div class="p-2.5 rounded-xl card-matte">
+              <span class="text-base block mb-0.5">🚀</span>
+              <h5 class="text-[11px] font-bold text-slate-200">Hỏa Tốc 2 Giờ</h5>
+              <p class="text-[9px] text-slate-400">Freeship từ 2 triệu</p>
+            </div>
+            <div class="p-2.5 rounded-xl card-matte">
+              <span class="text-base block mb-0.5">💳</span>
+              <h5 class="text-[11px] font-bold text-slate-200">Trả Góp 0%</h5>
+              <p class="text-[9px] text-slate-400">Duyệt online 10 phút</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Flash Deal Spotlight Card -->
+        <div class="lg:col-span-5">
+          <div class="card-matte p-4 border border-white/10 shadow-lg max-w-sm sm:max-w-md mx-auto">
+            <div class="flex items-center justify-between pb-2.5 mb-2.5 border-b border-white/5 text-xs">
+              <div class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                <span class="font-bold text-red-400 text-xs">🔥 Tiêu Điểm Hôm Nay</span>
+              </div>
+              <div class="flex items-center gap-1 text-[11px] font-mono text-slate-400 bg-[#121316] px-2 py-0.5 rounded">
+                <span>Còn: </span>
+                <strong id="deal-timer" class="text-amber-400">08:45:12</strong>
+              </div>
+            </div>
+
+            <!-- Spotlight Product -->
+            <div class="flex items-center gap-3.5 mb-3">
+              <div class="w-20 h-20 rounded-lg overflow-hidden bg-slate-950 flex-shrink-0 cursor-pointer" onclick="openProductModal('sp-01')">
+                <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-[10px] font-bold text-blue-400 uppercase">Apple Flagship</span>
+                <h4 class="font-bold text-xs sm:text-sm text-slate-100 truncate cursor-pointer hover:text-blue-400" onclick="openProductModal('sp-01')">
+                  iPhone 16 Pro Max 256GB
+                </h4>
+                <div class="flex items-baseline gap-2 mt-0.5">
+                  <span class="text-sm sm:text-base font-extrabold text-blue-400">34.990.000đ</span>
+                  <span class="text-[10px] text-slate-500 line-through">36.990.000đ</span>
+                </div>
+                <div class="w-full bg-slate-800 rounded-full h-1 mt-1.5 overflow-hidden">
+                  <div class="bg-red-500 h-1 rounded-full w-4/5"></div>
+                </div>
+                <p class="text-[9px] text-slate-400 mt-1">Đã bán 82/100 máy • Còn 18 máy</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-white/5">
+              <button onclick="window.cartManager.addToCart('sp-01', 1); showToast('Đã thêm iPhone 16 Pro Max vào giỏ!', 'success')" class="py-1.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition flex items-center justify-center gap-1 shadow">
+                <span>+ Thêm vào giỏ</span>
+              </button>
+              <button onclick="openAIChatWithPrompt('So sánh iPhone 16 Pro Max với Samsung Galaxy S24 Ultra giúp tôi')" class="py-1.5 px-3 rounded-lg bg-[#282b35] hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-white/10 transition flex items-center justify-center gap-1">
+                <span>🤖 So sánh cùng AI</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       COUPON VOUCHERS STRIP
+       ======================================================== -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+      <div class="card-matte p-2.5 flex items-center justify-between border-dashed border-white/10">
+        <div>
+          <span class="text-xs font-bold text-blue-400 uppercase tracking-wider block">Mã: TECHAI10</span>
+          <p class="text-[10px] text-slate-400">Giảm 10% tối đa 500k từ 1 triệu</p>
+        </div>
+        <button onclick="navigator.clipboard.writeText('TECHAI10'); showToast('Đã copy mã TECHAI10!', 'success')" class="px-2.5 py-1 rounded bg-[#282b35] hover:bg-blue-600 hover:text-white text-slate-300 text-xs font-semibold transition">
+          Copy
+        </button>
+      </div>
+
+      <div class="card-matte p-2.5 flex items-center justify-between border-dashed border-white/10">
+        <div>
+          <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block">Mã: FREESHIP</span>
+          <p class="text-[10px] text-slate-400">Miễn phí ship toàn quốc</p>
+        </div>
+        <button onclick="navigator.clipboard.writeText('FREESHIP'); showToast('Đã copy mã FREESHIP!', 'success')" class="px-2.5 py-1 rounded bg-[#282b35] hover:bg-emerald-600 hover:text-white text-slate-300 text-xs font-semibold transition">
+          Copy
+        </button>
+      </div>
+
+      <div class="card-matte p-2.5 flex items-center justify-between border-dashed border-white/10">
+        <div>
+          <span class="text-xs font-bold text-amber-400 uppercase tracking-wider block">Mã: VIPTECH</span>
+          <p class="text-[10px] text-slate-400">Giảm 15% tối đa 1 triệu từ 5 triệu</p>
+        </div>
+        <button onclick="navigator.clipboard.writeText('VIPTECH'); showToast('Đã copy mã VIPTECH!', 'success')" class="px-2.5 py-1 rounded bg-[#282b35] hover:bg-amber-600 hover:text-white text-slate-300 text-xs font-semibold transition">
+          Copy
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       PRODUCT CATALOG & FILTER SECTION
+       ======================================================== -->
+  <main id="catalog-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    
+    <!-- Section Title & Meta -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-100">Danh Mục Thiết Bị Công Nghệ</h2>
+        <p class="text-xs text-slate-400">Hàng chính hãng phân phối chính thức</p>
+      </div>
+      <div id="products-count" class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-[#1b1d24] text-slate-300 self-start sm:self-auto border border-white/5">
+        12 sản phẩm
+      </div>
+    </div>
+
+    <!-- Category Nav Tabs -->
+    <div class="flex items-center gap-1.5 overflow-x-auto pb-2.5 mb-5 scrollbar-none">
+      <button class="category-tab active-cat px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white flex-shrink-0 transition" data-category="all">
+        ⚡ Tất cả
+      </button>
+      <button class="category-tab px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#1b1d24] hover:bg-[#282b35] text-slate-300 flex-shrink-0 transition" data-category="phone">
+        📱 Điện thoại
+      </button>
+      <button class="category-tab px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#1b1d24] hover:bg-[#282b35] text-slate-300 flex-shrink-0 transition" data-category="laptop">
+        💻 Laptop
+      </button>
+      <button class="category-tab px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#1b1d24] hover:bg-[#282b35] text-slate-300 flex-shrink-0 transition" data-category="audio">
+        🎧 Tai nghe & Loa
+      </button>
+      <button class="category-tab px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#1b1d24] hover:bg-[#282b35] text-slate-300 flex-shrink-0 transition" data-category="accessory">
+        ⌨️ Phụ kiện
+      </button>
+      <button class="category-tab px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#1b1d24] hover:bg-[#282b35] text-slate-300 flex-shrink-0 transition" data-category="smarthome">
+        🖥️ Màn hình
+      </button>
+    </div>
+
+    <!-- Filter & Sort Bar -->
+    <div class="card-matte p-3 rounded-xl mb-6 flex flex-wrap items-center justify-between gap-3 text-xs">
+      
+      <!-- Brand Filter -->
+      <div class="flex items-center gap-1.5">
+        <span class="text-slate-400">Hãng:</span>
+        <select id="brand-filter" class="bg-[#121316] border border-white/10 text-slate-200 py-1 px-2 rounded-lg focus:outline-none">
+          <option value="all">Tất cả hãng</option>
+          <option value="Apple">Apple</option>
+          <option value="Samsung">Samsung</option>
+          <option value="Sony">Sony</option>
+          <option value="Asus">ASUS ROG</option>
+          <option value="Dell">Dell</option>
+          <option value="Logitech">Logitech</option>
+          <option value="Keychron">Keychron</option>
+          <option value="Marshall">Marshall</option>
+          <option value="Anker">Anker</option>
+        </select>
+      </div>
+
+      <!-- Price Range Slider -->
+      <div class="flex items-center gap-2 flex-1 max-w-xs min-w-[180px]">
+        <span class="text-slate-400 whitespace-nowrap">Mức giá:</span>
+        <input type="range" id="price-slider" min="1000000" max="60000000" step="1000000" value="60000000" class="w-full accent-blue-500 cursor-pointer">
+        <span id="price-slider-val" class="font-bold text-blue-400 whitespace-nowrap text-right min-w-[55px]">60 triệu</span>
+      </div>
+
+      <!-- Sort By & View Mode -->
+      <div class="flex items-center gap-2">
+        <select id="sort-select" class="bg-[#121316] border border-white/10 text-slate-200 py-1 px-2 rounded-lg focus:outline-none">
+          <option value="popular">Bán chạy nhất</option>
+          <option value="price-asc">Giá thấp đến cao</option>
+          <option value="price-desc">Giá cao xuống thấp</option>
+          <option value="rating">Đánh giá cao</option>
+        </select>
+
+        <div class="hidden sm:flex items-center bg-[#121316] p-0.5 rounded-lg border border-white/10">
+          <button id="btn-view-grid" class="p-1 rounded bg-blue-600 text-white" title="Lưới">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+          </button>
+          <button id="btn-view-list" class="p-1 rounded text-slate-400 hover:text-white" title="Danh sách">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Product Grid Container -->
+    <div id="products-grid">
+      <!-- Rendered by app.js -->
+    </div>
+
+  </main>
+
+  <!-- ========================================================
+       FOOTER
+       ======================================================== -->
+  <footer class="mt-16 border-t border-white/5 bg-[#121316] py-10 text-slate-400 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-6 h-6 rounded bg-blue-600 flex items-center justify-center text-white font-bold text-xs">⚡</div>
+          <span class="text-base font-bold text-slate-100">TECHZONE</span>
+        </div>
+        <p class="leading-relaxed mb-2 text-slate-400">Ứng dụng bán lẻ thiết bị công nghệ chính hãng tích hợp trợ lý AI thông minh tư vấn 24/7.</p>
+        <p class="text-slate-500">© 2026 TECHZONE Inc.</p>
+      </div>
+
+      <div>
+        <h4 class="font-bold text-slate-200 text-xs mb-2">Chính Sách</h4>
+        <ul class="space-y-1.5 text-slate-400">
+          <li><a href="javascript:void(0)" onclick="openAIChatWithPrompt('Chính sách bảo hành 1 đổi 1')" class="hover:text-blue-400">Bảo hành 1 đổi 1 trong 30 ngày</a></li>
+          <li><a href="javascript:void(0)" onclick="openAIChatWithPrompt('Chính sách giao hàng hỏa tốc')" class="hover:text-blue-400">Giao hàng hỏa tốc 2 giờ</a></li>
+          <li><a href="javascript:void(0)" onclick="openAIChatWithPrompt('Chính sách trả góp 0%')" class="hover:text-blue-400">Trả góp 0% lãi suất</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-bold text-slate-200 text-xs mb-2">Trợ Lý CyberBot</h4>
+        <ul class="space-y-1.5 text-slate-400">
+          <li><a href="javascript:void(0)" onclick="openAIChatWithPrompt('Tư vấn chọn mua laptop')" class="hover:text-blue-400">Tư vấn mua Laptop</a></li>
+          <li><a href="javascript:void(0)" onclick="openAIChatWithPrompt('So sánh iPhone 16 Pro Max và Galaxy S24 Ultra')" class="hover:text-blue-400">So sánh điện thoại</a></li>
+          <li><a href="javascript:void(0)" onclick="document.getElementById('open-ai-config-btn').click()" class="hover:text-blue-400">⚙️ Cài đặt Gemini AI Key</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-bold text-slate-200 text-xs mb-2">Hỗ Trợ & Thanh Toán</h4>
+        <p class="mb-1">Hotline: <strong class="text-blue-400">1900 6868</strong></p>
+        <p class="mb-2">Email: support@techzone.vn</p>
+        <div class="flex flex-wrap gap-1">
+          <span class="px-1.5 py-0.5 rounded bg-[#1b1d24] text-[9px] border border-white/5">VietQR Napas</span>
+          <span class="px-1.5 py-0.5 rounded bg-[#1b1d24] text-[9px] border border-white/5">MoMo</span>
+          <span class="px-1.5 py-0.5 rounded bg-[#1b1d24] text-[9px] border border-white/5">COD</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================
+       DRAWER: CART (GIỎ HÀNG 100% HOẠT ĐỘNG ỔN ĐỊNH)
+       ======================================================== -->
+  <div id="cart-overlay" class="app-overlay" onclick="closeCart()"></div>
+  <aside id="cart-drawer" class="cart-drawer-container">
+    <!-- Header -->
+    <div class="p-3.5 border-b border-white/5 flex items-center justify-between bg-[#15171c]">
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <h3 class="font-bold text-sm text-slate-100">Giỏ Hàng Của Bạn</h3>
+      </div>
+      <button onclick="closeCart()" class="w-7 h-7 rounded-lg bg-[#1b1d24] hover:bg-[#282b35] text-slate-300 flex items-center justify-center text-xs">✕</button>
+    </div>
+
+    <!-- Free Shipping Progress Bar -->
+    <div class="px-4 py-2.5 bg-[#1b1d24] border-b border-white/5">
+      <div class="flex items-center justify-between text-[11px] mb-1">
+        <span id="freeship-text" class="text-slate-300">Mua thêm để nhận Freeship 2H!</span>
+        <span id="freeship-percent" class="font-bold text-emerald-400">0%</span>
+      </div>
+      <div class="fs-bar-track">
+        <div id="freeship-bar-fill" class="fs-bar-fill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- Items List -->
+    <div id="cart-items-list" class="flex-1 overflow-y-auto p-3.5 space-y-2.5"></div>
+
+    <!-- Empty State -->
+    <div id="cart-empty-state" class="flex-1 flex flex-col items-center justify-center p-6 text-center text-slate-400" style="display: none;">
+      <div class="w-14 h-14 rounded-full bg-[#1b1d24] flex items-center justify-center text-2xl mb-2">🛒</div>
+      <h4 class="font-bold text-slate-200 text-xs mb-1">Giỏ hàng của bạn đang trống</h4>
+      <p class="text-[11px] mb-3">Hãy chọn các sản phẩm công nghệ bạn yêu thích!</p>
+      <button onclick="closeCart()" class="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-semibold">Mua sắm ngay</button>
+    </div>
+
+    <!-- Cart Footer & Checkout -->
+    <div id="cart-footer" class="p-3.5 border-t border-white/5 bg-[#15171c] space-y-2.5">
+      <!-- Promo code input -->
+      <div class="flex gap-1.5">
+        <input type="text" id="cart-promo-input" placeholder="Mã giảm giá (TECHAI10, FREESHIP)" class="flex-1 bg-[#121316] border border-white/10 uppercase px-2.5 py-1.5 rounded-lg text-xs text-white focus:outline-none">
+        <button id="apply-promo-btn" class="px-3 py-1.5 rounded-lg bg-[#282b35] hover:bg-blue-600 text-white text-xs font-semibold transition">Áp dụng</button>
+      </div>
+
+      <!-- Calculations -->
+      <div class="space-y-1 text-xs text-slate-400 pt-1">
+        <div class="flex justify-between">
+          <span>Tạm tính:</span>
+          <span id="cart-subtotal" class="font-semibold text-slate-200">0đ</span>
+        </div>
+        <div class="flex justify-between text-emerald-400">
+          <span>Giảm giá:</span>
+          <span id="cart-discount" class="font-semibold">-0đ</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Phí vận chuyển:</span>
+          <span id="cart-shipping" class="font-semibold text-slate-200">Miễn phí</span>
+        </div>
+        <div class="flex justify-between text-sm font-bold text-white pt-1.5 border-t border-white/5">
+          <span>Tổng thanh toán:</span>
+          <span id="cart-total" class="text-blue-400">0đ</span>
+        </div>
+      </div>
+
+      <button id="btn-proceed-checkout" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow transition">
+        Tiến hành đặt hàng
+      </button>
+    </div>
+  </aside>
+
+  <!-- ========================================================
+       MODAL: PRODUCT DETAIL (CHI TIẾT SẢN PHẨM)
+       ======================================================== -->
+  <div id="product-detail-modal" class="app-modal-backdrop">
+    <div class="app-modal-box max-w-3xl w-full overflow-hidden">
+      <div class="flex items-center justify-between p-3.5 border-b border-white/5">
+        <div class="flex items-center gap-2 text-xs">
+          <span id="modal-p-brand" class="uppercase font-bold text-blue-400"></span>
+          <span class="text-slate-500">•</span>
+          <span id="modal-p-category" class="text-slate-400"></span>
+        </div>
+        <button onclick="closeProductModal()" class="w-7 h-7 rounded-lg bg-[#1b1d24] text-slate-300 flex items-center justify-center text-xs">✕</button>
+      </div>
+
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+          <div class="md:col-span-5 space-y-2">
+            <div class="rounded-xl overflow-hidden bg-slate-950 aspect-square border border-white/5">
+              <img id="modal-p-img" src="" class="w-full h-full object-cover">
+            </div>
+            <div id="modal-p-gallery" class="flex gap-1.5 overflow-x-auto pb-1"></div>
+          </div>
+
+          <div class="md:col-span-7 space-y-3">
+            <div>
+              <h3 id="modal-p-title" class="text-base sm:text-xl font-bold mb-1 text-slate-100"></h3>
+              <div id="modal-p-rating" class="text-amber-400 text-xs font-semibold"></div>
+            </div>
+            
+            <div class="flex items-baseline gap-2">
+              <span id="modal-p-price" class="text-xl font-extrabold text-blue-400"></span>
+              <span id="modal-p-original-price" class="text-xs text-slate-500 line-through"></span>
+            </div>
+
+            <p id="modal-p-desc" class="text-xs text-slate-400 leading-relaxed"></p>
+
+            <div id="modal-color-container" class="space-y-1">
+              <label class="block text-[11px] font-semibold text-slate-300">Màu sắc:</label>
+              <div id="modal-color-options" class="flex flex-wrap gap-1.5"></div>
+            </div>
+
+            <div id="modal-storage-container" class="space-y-1">
+              <label class="block text-[11px] font-semibold text-slate-300">Phiên bản / Dung lượng:</label>
+              <div id="modal-storage-options" class="flex flex-wrap gap-1.5"></div>
+            </div>
+
+            <div class="flex items-center gap-2 pt-1">
+              <div class="flex items-center border border-white/10 rounded-lg overflow-hidden">
+                <button onclick="const el = document.getElementById('modal-qty-input'); el.value = Math.max(1, parseInt(el.value) - 1)" class="px-2.5 py-1.5 bg-[#1b1d24] text-white hover:bg-slate-700">-</button>
+                <input type="number" id="modal-qty-input" value="1" min="1" max="99" class="w-10 text-center bg-[#121316] text-white text-xs py-1.5 focus:outline-none">
+                <button onclick="const el = document.getElementById('modal-qty-input'); el.value = parseInt(el.value) + 1" class="px-2.5 py-1.5 bg-[#1b1d24] text-white hover:bg-slate-700">+</button>
+              </div>
+
+              <button id="modal-add-cart-btn" class="flex-1 py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-1 shadow">
+                + Thêm vào giỏ hàng
+              </button>
+            </div>
+
+            <button id="modal-consult-ai-btn" class="w-full py-2 px-3 rounded-lg bg-[#282b35] hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-white/10 flex items-center justify-center gap-1.5">
+              <span>🤖 Nhờ CyberBot tư vấn chuyên sâu</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-slate-200 mb-2 uppercase tracking-wider">Thông Số Kỹ Thuật Chi Tiết</h4>
+          <div id="modal-p-specs" class="bg-[#121316] p-3 rounded-xl border border-white/5 space-y-1"></div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-slate-200 mb-2 uppercase tracking-wider">Đánh Giá Từ Khách Hàng</h4>
+          <div id="modal-p-reviews"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL: CHECKOUT (THANH TOÁN VIETQR & COD)
+       ======================================================== -->
+  <div id="checkout-modal" class="app-modal-backdrop">
+    <div class="app-modal-box max-w-lg w-full overflow-hidden">
+      <div class="p-3.5 border-b border-white/5 flex items-center justify-between">
+        <h3 class="font-bold text-sm text-slate-100 flex items-center gap-1.5">
+          <span>💳</span> Xác Nhận Đơn Hàng & Thanh Toán
+        </h3>
+        <button onclick="document.getElementById('checkout-modal').classList.remove('active')" class="w-7 h-7 rounded-lg bg-[#1b1d24] text-slate-300 flex items-center justify-center text-xs">✕</button>
+      </div>
+
+      <form id="checkout-form" class="p-4 sm:p-5 overflow-y-auto space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold mb-1 text-slate-300">Họ và tên người nhận *</label>
+          <input type="text" id="checkout-name" required placeholder="Nguyễn Văn A" class="w-full p-2 rounded-lg bg-[#121316] border border-white/10 text-slate-100 focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block font-semibold mb-1 text-slate-300">Số điện thoại *</label>
+            <input type="tel" id="checkout-phone" required placeholder="0912 345 678" class="w-full p-2 rounded-lg bg-[#121316] border border-white/10 text-slate-100 focus:outline-none focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block font-semibold mb-1 text-slate-300">Ghi chú giao hàng</label>
+            <input type="text" id="checkout-note" placeholder="Gọi trước khi giao" class="w-full p-2 rounded-lg bg-[#121316] border border-white/10 text-slate-100 focus:outline-none focus:border-blue-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1 text-slate-300">Địa chỉ giao hàng chi tiết *</label>
+          <input type="text" id="checkout-address" required placeholder="Số 12 ngõ 45, Đường Giải Phóng, Hà Nội" class="w-full p-2 rounded-lg bg-[#121316] border border-white/10 text-slate-100 focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1.5 text-slate-300">Phương thức thanh toán</label>
+          <div class="grid grid-cols-3 gap-1.5">
+            <label class="flex items-center gap-1.5 p-2 rounded-lg bg-[#121316] border border-white/10 cursor-pointer">
+              <input type="radio" name="paymentMethod" value="VietQR" checked class="accent-blue-500">
+              <span class="text-[11px] text-slate-200">VietQR</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-2 rounded-lg bg-[#121316] border border-white/10 cursor-pointer">
+              <input type="radio" name="paymentMethod" value="COD" class="accent-blue-500">
+              <span class="text-[11px] text-slate-200">COD (Tiền mặt)</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-2 rounded-lg bg-[#121316] border border-white/10 cursor-pointer">
+              <input type="radio" name="paymentMethod" value="MoMo" class="accent-blue-500">
+              <span class="text-[11px] text-slate-200">MoMo</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="vietqr-box" class="p-3 rounded-lg bg-[#121316] border border-white/10 flex items-center gap-3">
+          <div class="w-28 h-28 bg-white p-1.5 rounded-lg flex-shrink-0 flex items-center justify-center">
+            <img id="vietqr-image" src="" alt="VietQR" class="w-full h-full object-contain">
+          </div>
+          <div class="text-left space-y-0.5">
+            <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">Napas 247 Tự Động Khớp Lệnh</span>
+            <p class="font-bold text-slate-200 text-xs">Quét mã bằng bất kỳ App Ngân Hàng nào</p>
+            <p class="text-blue-400 font-bold text-xs pt-1">Tổng tiền: <span id="checkout-summary-total">0đ</span></p>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow transition">
+          Hoàn tất đặt hàng
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL: ORDER SUCCESS CELEBRATION
+       ======================================================== -->
+  <div id="order-success-modal" class="app-modal-backdrop">
+    <div class="app-modal-box max-w-sm w-full p-5 text-center">
+      <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-2xl mx-auto mb-3">
+        ✓
+      </div>
+      <h3 class="text-base font-bold text-white mb-1">Đặt Hàng Thành Công!</h3>
+      <p class="text-[11px] text-slate-400 mb-3">Cảm ơn bạn đã mua sắm tại TECHZONE.</p>
+
+      <div class="bg-[#121316] p-3 rounded-xl border border-white/5 text-left text-xs space-y-1.5 mb-4">
+        <div class="flex justify-between border-b border-white/5 pb-1.5">
+          <span class="text-slate-400">Mã đơn:</span>
+          <strong id="success-order-id" class="text-blue-400 font-mono"></strong>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Người nhận:</span>
+          <span id="success-order-name" class="text-slate-200"></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Số điện thoại:</span>
+          <span id="success-order-phone" class="text-slate-200"></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Thanh toán:</span>
+          <span id="success-order-payment" class="text-emerald-400 font-bold"></span>
+        </div>
+        <div class="flex justify-between border-t border-white/5 pt-1.5 text-xs font-bold text-white">
+          <span>Tổng thanh toán:</span>
+          <span id="success-order-total" class="text-blue-400"></span>
+        </div>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="window.print()" class="flex-1 py-2 rounded-lg bg-[#282b35] text-slate-200 text-xs font-semibold">
+          🖨️ In đơn
+        </button>
+        <button id="close-success-modal" class="flex-1 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold">
+          Tiếp tục
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL: WISHLIST (YÊU THÍCH)
+       ======================================================== -->
+  <div id="wishlist-modal" class="app-modal-backdrop">
+    <div class="app-modal-box max-w-md w-full overflow-hidden">
+      <div class="p-3 border-b border-white/5 flex items-center justify-between">
+        <h3 class="font-bold text-sm text-slate-100 flex items-center gap-1.5">
+          <span>❤️</span> Sản Phẩm Yêu Thích
+        </h3>
+        <button id="close-wishlist-modal" class="w-7 h-7 rounded-lg bg-[#1b1d24] text-slate-300 flex items-center justify-center text-xs">✕</button>
+      </div>
+      <div id="wishlist-items-container" class="p-3 overflow-y-auto space-y-2"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL: GEMINI API CONFIG
+       ======================================================== -->
+  <div id="ai-config-modal" class="app-modal-backdrop">
+    <div class="app-modal-box max-w-sm w-full p-4 text-xs space-y-3">
+      <div class="flex items-center justify-between border-b border-white/5 pb-2">
+        <h4 class="font-bold text-xs text-slate-100 flex items-center gap-1.5">
+          <span>⚙️</span> Cài Đặt Gemini Cloud AI
+        </h4>
+        <button id="close-ai-config-modal" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+
+      <p class="text-slate-400 leading-relaxed text-[11px]">
+        Mặc định <strong>CyberBot Pro</strong> chạy trên Smart Local NLP (không cần Internet). Nếu muốn dùng Gemini Cloud:
+      </p>
+
+      <div>
+        <label class="block font-semibold mb-1 text-slate-300">Gemini API Key:</label>
+        <input type="password" id="gemini-api-key-input" placeholder="AIzaSy..." class="w-full p-2 rounded-lg bg-[#121316] border border-white/10 text-slate-100 focus:outline-none">
+        <p class="text-[9px] text-slate-500 mt-1">Lấy key miễn phí tại: <a href="https://aistudio.google.com" target="_blank" class="text-blue-400 underline">aistudio.google.com</a></p>
+      </div>
+
+      <div>
+        <label class="block font-semibold mb-1 text-slate-300">Model:</label>
+        <select id="gemini-model-select" class="w-full p-2 rounded-lg bg-[#121316] border border-white/10 text-slate-100 focus:outline-none">
+          <option value="gemini-1.5-flash">Gemini 1.5 Flash (Nhanh nhẹn)</option>
+          <option value="gemini-1.5-pro">Gemini 1.5 Pro (Lý luận sâu)</option>
+        </select>
+      </div>
+
+      <div class="flex gap-2 pt-1">
+        <button id="save-ai-config-btn" class="flex-1 py-2 rounded-lg bg-blue-600 text-white font-bold">Lưu cấu hình</button>
+        <button onclick="document.getElementById('gemini-api-key-input').value = ''; document.getElementById('save-ai-config-btn').click();" class="px-2.5 py-2 rounded-lg bg-[#282b35] text-slate-300">Dùng Offline</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       FLOATING AI BUTTON (NÚT BẬT CYBERBOT)
+       ======================================================== -->
+  <button id="ai-floating-trigger" class="ai-floating-btn" onclick="openAIChat()" title="Tư vấn cùng CyberBot">
+    <div class="ai-pulse-ring"></div>
+    <span class="relative z-10">🤖</span>
+  </button>
+
+  <!-- ========================================================
+       CYBERBOT PRO CHAT (CHUYỂN HOÁ FULLSCREEN TRÊN MOBILE)
+       ======================================================== -->
+  <div id="ai-chat-window" class="ai-chat-window">
+    <!-- Header -->
+    <div class="px-3.5 py-2.5 bg-[#15171c] border-b border-white/5 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold">
+          🤖
+        </div>
+        <div>
+          <h4 class="font-bold text-xs text-slate-100 flex items-center gap-1">
+            CyberBot Pro
+            <span class="text-[8px] px-1 py-0.2 rounded bg-blue-500/20 text-blue-400 font-bold uppercase">AI</span>
+          </h4>
+          <p class="text-[9px] text-slate-400">Trợ lý tư vấn công nghệ 24/7</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1">
+        <button id="clear-chat-btn" class="w-7 h-7 rounded-lg hover:bg-[#282b35] text-slate-400 hover:text-white flex items-center justify-center text-xs" title="Làm mới chat">
+          🗑️
+        </button>
+        <button id="open-ai-config-btn" class="w-7 h-7 rounded-lg hover:bg-[#282b35] text-slate-400 hover:text-white flex items-center justify-center text-xs" title="Cài đặt">
+          ⚙️
+        </button>
+        <!-- Back button on mobile / Close button on PC -->
+        <button onclick="closeAIChat()" class="px-2 py-1 rounded-lg bg-[#1b1d24] text-slate-300 hover:text-white text-xs font-semibold">
+          ✕
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages Body -->
+    <div id="chat-messages-container" class="flex-1 overflow-y-auto p-3.5 space-y-2.5"></div>
+
+    <!-- Input Bar -->
+    <div class="p-2.5 bg-[#15171c] border-t border-white/5 flex items-center gap-1.5">
+      <button id="voice-chat-btn" class="w-8 h-8 rounded-lg bg-[#1b1d24] hover:bg-[#282b35] text-slate-300 flex items-center justify-center text-sm flex-shrink-0" title="Giọng nói">
+        🎙️
+      </button>
+
+      <input 
+        type="text" 
+        id="chat-input"
+        placeholder="Hỏi cấu hình, so sánh hoặc ngân sách..." 
+        class="flex-1 bg-[#121316] border border-white/10 rounded-lg px-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500"
+      >
+
+      <button id="send-chat-btn" class="w-8 h-8 rounded-lg bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center flex-shrink-0 shadow">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MOBILE BOTTOM NAVIGATION (5 TABS CHUẨN APP DI ĐỘNG)
+       ======================================================== -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-[9980] bg-[#15171c] border-t border-white/10 py-1.5 px-3 flex items-center justify-around text-center text-[10px]">
+    <button onclick="handleBottomNav('home')" class="mobile-nav-item flex flex-col items-center gap-0.5 text-blue-400 font-bold active:scale-95 transition-all" data-target="home">
+      <span class="text-base">🏠</span>
+      <span>Trang chủ</span>
+    </button>
+    <button onclick="handleBottomNav('categories')" class="mobile-nav-item flex flex-col items-center gap-0.5 text-slate-400 active:scale-95 transition-all" data-target="categories">
+      <span class="text-base">📁</span>
+      <span>Danh mục</span>
+    </button>
+    <button onclick="handleBottomNav('ai')" class="mobile-nav-item flex flex-col items-center gap-0.5 text-slate-400 active:scale-95 transition-all" data-target="ai">
+      <span class="text-base animate-pulse">🤖</span>
+      <span>Hỏi AI</span>
+    </button>
+    <button onclick="handleBottomNav('wishlist')" class="mobile-nav-item flex flex-col items-center gap-0.5 text-slate-400 active:scale-95 transition-all" data-target="wishlist">
+      <span class="text-base">❤️</span>
+      <span>Yêu thích</span>
+    </button>
+    <button onclick="handleBottomNav('cart')" class="mobile-nav-item flex flex-col items-center gap-0.5 text-slate-400 relative active:scale-95 transition-all" data-target="cart">
+      <span class="text-base">🛒</span>
+      <span>Giỏ hàng</span>
+      <span class="cart-badge-count absolute -top-1 right-2 w-3.5 h-3.5 rounded-full bg-blue-600 text-white text-[8px] font-bold hidden items-center justify-center">0</span>
+    </button>
+  </nav>
+
+  <!-- ========================================================
+       SCRIPTS & GLOBAL BRIDGES (ĐẢM BẢO 100% LUÔN SẴN SÀNG)
+       ======================================================== -->
+  <script src="js/products.js"></script>
+  <script src="js/ai-consultant.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Failsafe Global Bridge Script -->
+  <script>
+    window.openCart = window.openCart || function() {
+      const drawer = document.getElementById("cart-drawer");
+      const overlay = document.getElementById("cart-overlay");
+      if (drawer) drawer.classList.add("active");
+      if (overlay) overlay.classList.add("active");
+      if (typeof window.renderCartItems === "function") window.renderCartItems();
+    };
+
+    window.closeCart = window.closeCart || function() {
+      const drawer = document.getElementById("cart-drawer");
+      const overlay = document.getElementById("cart-overlay");
+      if (drawer) drawer.classList.remove("active");
+      if (overlay) overlay.classList.remove("active");
+    };
+
+    window.openAIChat = window.openAIChat || function() {
+      const chatWin = document.getElementById("ai-chat-window");
+      if (chatWin) {
+        chatWin.classList.add("active");
+        const container = document.getElementById("chat-messages-container");
+        if (container && container.children.length === 0 && window.aiConsultant) {
+          const welcome = window.aiConsultant.getInitialWelcome();
+          if (typeof window.appendAIMessage === "function") {
+            window.appendAIMessage(welcome.text, welcome.recommendations, welcome.quickReplies);
+          }
+        }
+        setTimeout(() => document.getElementById("chat-input")?.focus(), 150);
+      }
+    };
+
+    window.closeAIChat = window.closeAIChat || function() {
+      const chatWin = document.getElementById("ai-chat-window");
+      if (chatWin) chatWin.classList.remove("active");
+    };
+
+    window.openWishlist = window.openWishlist || function() {
+      const modal = document.getElementById("wishlist-modal");
+      if (modal) {
+        if (typeof window.renderWishlist === "function") window.renderWishlist();
+        modal.classList.add("active");
+      }
+    };
+
+    window.closeWishlist = window.closeWishlist || function() {
+      const modal = document.getElementById("wishlist-modal");
+      if (modal) modal.classList.remove("active");
+    };
+
+    window.handleBottomNav = window.handleBottomNav || function(target) {
+      document.querySelectorAll(".mobile-nav-item").forEach(n => {
+        if (n.getAttribute("data-target") === target) {
+          n.classList.add("text-blue-400", "font-bold");
+          n.classList.remove("text-slate-400");
+        } else {
+          n.classList.remove("text-blue-400", "font-bold");
+          n.classList.add("text-slate-400");
+        }
+      });
+
+      if (target === "home") {
+        window.closeAIChat();
+        window.closeCart();
+        window.closeWishlist();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else if (target === "categories") {
+        window.closeAIChat();
+        window.closeCart();
+        window.closeWishlist();
+        document.getElementById("catalog-section")?.scrollIntoView({ behavior: "smooth" });
+      } else if (target === "ai") {
+        window.closeCart();
+        window.closeWishlist();
+        window.openAIChat();
+      } else if (target === "cart") {
+        window.closeAIChat();
+        window.closeWishlist();
+        window.openCart();
+      } else if (target === "wishlist") {
+        window.closeAIChat();
+        window.closeCart();
+        window.openWishlist();
+      }
+    };
+  </script>
+
+</body>
+</html>
